@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { apiClient } from './apiClient'
 import type { Bid } from './types'
 
@@ -22,6 +22,13 @@ export function useBids(eventId: string) {
 }
 
 export function usePlaceBid() {
-  return useMutation({ mutationFn: placeBid })
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: placeBid,
+    onSuccess: (_data, vars) => {
+      void qc.invalidateQueries({ queryKey: ['bids', vars.eventId] })
+      void qc.invalidateQueries({ queryKey: ['auctions', vars.eventId] })
+    },
+  })
 }
 

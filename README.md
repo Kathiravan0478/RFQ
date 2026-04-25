@@ -17,6 +17,10 @@ npm install
 npm run dev
 ```
 
+### Full stack (Docker, repos stay separate)
+
+Use the sibling folder **`rfq-local-stack/`** (same parent directory as this repo): it contains a `docker-compose.yml` that builds **this app** and **rfqqbe** together. See `rfq-local-stack/README.md`.
+
 ### Environment
 
 Create `.env` (optional):
@@ -29,7 +33,7 @@ VITE_API_BASE_URL=http://localhost:8000
 
 - **Auth & RBAC state**: `src/state/authStore.ts`
   - Stores `authStatus`, `userRole`, `token`, `userId`
-  - Current `LoginPage` is UI-only and issues a demo token; swap to `POST /auth/login` when backend lands.
+  - `LoginPage` calls `POST /auth/login` and `PUT /auth/profile` (terms consent); `RegisterPage` calls `POST /auth/register`.
 - **Theme toggle**: `src/state/theme.tsx` + `src/components/ThemeToggle.tsx`
   - `system | light | dark` with Tailwind `dark` class on `<html>`
 - **RBAC UI differentiation**: `src/components/RoleGuard.tsx`
@@ -37,9 +41,9 @@ VITE_API_BASE_URL=http://localhost:8000
 - **Dashboard layout**: `src/layout/DashboardLayout.tsx`
   - Sidebar + Topbar (Theme toggle + Notification Center button)
 - **Pages**
-  - `src/pages/LoginPage.tsx` (includes consent checkboxes)
-  - `src/pages/DashboardPage.tsx` (conditional UI by role)
-  - `src/pages/AuctionDetailsPage.tsx` (bid list + live timer demo)
+  - `src/pages/LoginPage.tsx` / `RegisterPage.tsx`
+  - `src/pages/DashboardPage.tsx` (seller create draft, admin approve drafts, live list for buyer/admin)
+  - `src/pages/AuctionDetailsPage.tsx` (auction from API, bid table + place bid for buyers)
 - **Notification system (demo)**:
   - `src/components/NotificationToast.tsx` + `src/state/notifications.ts`
   - Simulates backend alerts; replace with WS/SSE + real events

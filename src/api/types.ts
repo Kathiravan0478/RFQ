@@ -11,6 +11,8 @@ export type Auction = {
   bidCloseTime: string
   forcedCloseTime: string
   status: AuctionStatus
+  /** Present when the API has seen at least one bid */
+  currentHighestAmount?: number | null
 }
 
 export type Bid = {

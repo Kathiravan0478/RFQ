@@ -44,8 +44,8 @@ Types live in `src/api/types.ts`.
 Implemented in `src/api/auth.ts`.
 
 - `POST /auth/login`
-  - Request: `{ email, password }`
-  - Response: `{ token, userId, role }`
+  - Request: `{ email, password }` (JSON body)
+  - Response: `{ access_token, token_type, userId, role }` — the web app maps `access_token` → stored JWT as `token`
 - `GET /auth/me`
   - Response: `{ userId, role, status }`
 
